@@ -1,15 +1,19 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google'
 import jwt_decode from 'jwt-decode'
 
-const GoogleLoginApp = () => {
-  const [decodedData, setDecodedData] = useState<any | null>(null)
+interface GoogleLoginAppProps {
+  onDecodedData: (data: any) => void
+}
 
+const GoogleLoginApp: React.FC<GoogleLoginAppProps> = ({ onDecodedData }) => {
   const handleSuccess = (credentialResponse: any) => {
     console.log(credentialResponse)
     const decoded = jwt_decode(credentialResponse.credential as string)
     console.log(decoded)
-    setDecodedData(decoded)
+
+    // Call the parent component's callback function to pass the decoded data
+    onDecodedData(decoded)
   }
 
   return (
@@ -22,13 +26,6 @@ const GoogleLoginApp = () => {
           }}
         />
       </GoogleOAuthProvider>
-
-      {decodedData && (
-        <div>
-          <h2>Decoded Data</h2>
-          <pre>{JSON.stringify(decodedData, null, 2)}</pre>
-        </div>
-      )}
     </div>
   )
 }
