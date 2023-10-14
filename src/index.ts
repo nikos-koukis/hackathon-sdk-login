@@ -1,3 +1,3 @@
-import MyCounter from './components/App'
+import GoogleLoginApp from './components/App'
 
-export { MyCounter }
+export { GoogleLoginApp }
